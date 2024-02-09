@@ -1,0 +1,10 @@
+## Interface: 30300
+## Version: 1.0
+## Title: |cFF7FFFD4OutOfMana3|r
+
+## Notes: |cFFE6CC80Отправляет сообщение в чат, когда достигает процентного порога маны (/mana в чат, выводит информацию для настройки).
+## Author: Kubic70/GemInee
+## SavedVariablesPerCharacter: OutOfManaDB3
+
+
+main.lua
