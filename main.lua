@@ -48,7 +48,14 @@ f:SetScript("OnEvent", function(self, event, ...)
             OutOfManaDB3.message_end = message_end
         end
 
-        if event == "UNIT_MANA" and (mpThreshold ~= 0) and (UnitHealth('player') > 0) then -- ивент расхода маны
+        if event == "UNIT_MANA" and (mpThreshold ~= 0) then -- ивент расхода маны
+
+            if UnitHealth('player') == 0 or UnitIsGhost('player') then --исключаем сообщение о мане при возрождении
+                antiSpam = true
+                antiSpamEnd = true
+                return
+            end
+
             local mp = math.floor((UnitPower("player", 0) / UnitPowerMax("player")) * 100) -- current player mana percentage
 
             if (arg1 == "player") and (mp <= mpThreshold) and (not antiSpam) then   --выводим сообщение
@@ -61,7 +68,14 @@ f:SetScript("OnEvent", function(self, event, ...)
             end
         end
 
-        if event == "UNIT_SPELLCAST_FAILED" and arg1 == "player" and (mpThreshold ~= 0) and (UnitHealth('player') > 0 and not UnitIsGhost('player')) then    --ивент фейл каста
+        if event == "UNIT_SPELLCAST_FAILED" and arg1 == "player" and (mpThreshold ~= 0) then    --ивент фейл каста
+            
+            if UnitHealth('player') == 0 or UnitIsGhost('player') then --исключаем сообщение о мане при возрождении
+                antiSpam = true
+                antiSpamEnd = true
+                return
+            end
+
             local manacost
             if arg3 ~= "" then  -- вычисляем стоимость умения
                 manacost = select(4,GetSpellInfo(arg2,arg3))
