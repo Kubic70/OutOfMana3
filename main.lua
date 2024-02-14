@@ -50,7 +50,7 @@ f:SetScript("OnEvent", function(self, event, ...)
 
         if event == "UNIT_MANA" and (mpThreshold ~= 0) then -- ивент расхода маны
 
-            if UnitHealth('player') == 0 or UnitIsGhost('player') then --исключаем сообщение о мане при возрождении
+            if PlayerisDead() then --исключаем сообщение о мане при возрождении
                 antiSpam = true
                 antiSpamEnd = true
                 return
@@ -69,8 +69,8 @@ f:SetScript("OnEvent", function(self, event, ...)
         end
 
         if event == "UNIT_SPELLCAST_FAILED" and arg1 == "player" and (mpThreshold ~= 0) then    --ивент фейл каста
-            
-            if UnitHealth('player') == 0 or UnitIsGhost('player') then --исключаем сообщение о мане при возрождении
+
+            if PlayerisDead() then --исключаем сообщение о мане при возрождении
                 antiSpam = true
                 antiSpamEnd = true
                 return
@@ -90,6 +90,14 @@ f:SetScript("OnEvent", function(self, event, ...)
         end
 
     end)
+
+function PlayerisDead()
+    if UnitHealth('player') == 0 or UnitIsGhost('player') then
+        return true
+    else
+        return false
+    end    
+end
 
 --проверяем находится ли игрок в группе/рейде и возвращаем тип чата либо nil
 function GetPlayerGroupType()
